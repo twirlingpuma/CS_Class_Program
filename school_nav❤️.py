@@ -3,6 +3,7 @@ import streamlit as st
 a_c = "CAFETERIA"
 a_s = "STAGE"
 a_g1 = "GYM"
+a_o = "OFFICE"
 a1 = "1"
 a2 = "2"
 a3 = "3"
@@ -37,7 +38,7 @@ d37 = "37"
 d38 = "38"
 d_g2 = "GYM"
 
-a = [a_c, a_s, a_g1, a1, a2, a3, a4, a5, a6]
+a = [a_c, a_s, a_g1, a1, a2, a3, a4, a5, a6, a_o]
 a_direction_room_to_node = [
     "walk straight beyond the gym, to the intersection of halls",
     "take a left down to the intersection of halls",
@@ -47,7 +48,8 @@ a_direction_room_to_node = [
     "take a right and go slightly forward to the intersection of halls",
     "take a left and go slightly forward to the intersection of halls",
     "take a right and go down to the intersection of halls",
-    "take a left and go down to the intersection of halls"
+    "take a left and go down to the intersection of halls",
+    "Exit the office and walk straight to the intersection of halls"
 ]
 a_direction_node_to_room = [
     "face south and go straight",
@@ -58,7 +60,8 @@ a_direction_node_to_room = [
     "face north and go straight a small amount then take a left at the first door",
     "face north and go straight a small amount then take a right at the first door",
     "face north and go straight then take a left at the second door",
-    "face north go straight then take a right at the second door"
+    "face north go straight then take a right at the second door",
+    "Face south and go straight, the office is next to the cafeteria"
 ]
 a_to_b = "Face north and go forward until the intersection of halls"
 a_to_c = "Face east and go forward until the first intersection of halls, and then face north and go forward until the intersection of halls"
@@ -140,7 +143,7 @@ d_to_b = "Face West and walk straight until you reach the intersection of halls 
 d_to_c = "Face North and walk until you get to the intersection of hallways (Do not pass through the double doors."
 
 master = [
-    a_c, a_s, a_g1, a1, a2, a3, a4, a5, a6,
+    a_c, a_s, a_g1, a_o, a1, a2, a3, a4, a5, a6,
     b7, b8, b9, b10, b11, b12, b16_1, b_m,
     c16_2, c24, c26, c27, c28, c29,
     d30, d31, d32, d33, d34, d35, d36, d37, d38, d_g2
@@ -152,17 +155,17 @@ hallway_science = ["24", "25", "26", "27", "28", "29", "30", "31", "32", "33"]
 st.title("School Directions")
 
 with st.form("nav"):
-    start = st.text_input("Enter your current room number (For rooms without the number, enter the name in all caps):")
-    end = st.text_input("Enter the room you want to go to:")
+    start = st.selectbox("Enter your current room number (For rooms without the number, enter the name in all caps):", master)
+    end = st.selectbox("Enter the room you want to go to:", master)
     submitted = st.form_submit_button("Get Directions")
 
 if submitted:
     if start not in master:
-        st.error("Invalid, try again (try LIBRARY,GYM, or, STAGE)")
+        st.error("Invalid, try again (try LIBRARY, GYM, STAGE, or OFFICE)")
     elif end not in master:
-        st.error("Invalid, try again (try LIBRARY,GYM, or, STAGE)")
+        st.error("Invalid, try again (try LIBRARY, GYM, STAGE, or OFFICE)")
     else:
-        special = ["CAFETERIA", "STAGE", "LIBRARY", "GYM"]
+        special = ["CAFETERIA", "STAGE", "LIBRARY", "GYM", "OFFICE"]
 
         if start not in special and end not in special:
             start1 = int(start)
